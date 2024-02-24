@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  rustapp:
+    container_name: rustapp
+    image: mmadera/rustapp:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: postgres://mmadera:2181950@db:5432/laptop-crud
+    ports:
+      - '8080:6001'
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: 'postgres:12'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=mmadera
+      - POSTGRES_PASSWORD=2181950
+      - POSTGRES_DB=laptop-crud
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
