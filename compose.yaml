@@ -10,7 +10,7 @@ services:
       args:
         DATABASE_URL: postgres://mmadera:2181950@db:5432/laptop-crud
     ports:
-      - '8080:6001'
+      - '6001:6001'
     depends_on:
       - db
 
