@@ -1,0 +1,23 @@
+- name: Administrar servidores en DigitalOcean
+  hosts: servers
+  tasks:
+    - name: Obtener el nombre del sistema operativo
+      ansible.builtin.setup:
+        filter: ansible_distribution
+
+      # Seleccionamos solo el primer elemento de la lista
+      register: os_info
+      delegate_to: localhost
+    
+    - name: Clonar repositorio
+      git:
+        repo: https://github.com/Manu0620/first-rust-app
+        dest: /home/mmadera/first-rust-app
+
+    - name: Build and Start Docker container
+      become: true
+      shell: |
+        cd /home/mmadera/first-rust-app
+        docker-compose down
+        docker-compose build
+        docker-compose up -d
