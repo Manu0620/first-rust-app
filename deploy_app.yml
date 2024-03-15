@@ -1,0 +1,25 @@
+---
+- name: Desplegar y actualizar Rust App
+  hosts: all
+  become: true
+
+  tasks:
+    - name: 1. Clonar repositorio
+      git:
+        repo: https://github.com/Manu0620/first-rust-app
+        dest: /home/mmadera/first-rust-app
+      register: git_clone
+
+    - name: 2. Pausar y depurar el contenedor de Docker
+      become: true
+      shell: |
+        cd /home/mmadera/first-rust-app
+        docker-compose down
+        docker-compose build
+      when: git_clone.changed
+
+    - name: 3. Crear e Inicializar el contenedor de docker 
+      become: true
+      shell: |
+        cd /home/mmadera/first-rust-app
+        docker-compose up -d
