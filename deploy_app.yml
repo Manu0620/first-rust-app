@@ -5,6 +5,7 @@
 
   tasks:
     - name: 1. Clonar repositorio
+    become: true
       git:
         repo: https://github.com/Manu0620/first-rust-app.git
         dest: /home/mmadera/first-rust-app
